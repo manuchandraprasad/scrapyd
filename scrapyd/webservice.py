@@ -4,17 +4,48 @@ from cStringIO import StringIO
 
 from twisted.python import log
 
-from scrapy.utils.txweb import JsonResource
+#from scrapy.utils.txweb import JsonResource
 from .utils import get_spider_list
+from pprint import pprint
+import base64
+from twisted.cred.error import Unauthorized
+import json
+from twisted.web import resource
+
+class JsonResource(resource.Resource):
+
+    json_encoder = json.JSONEncoder()
+
+    def render(self, txrequest):
+        r = resource.Resource.render(self, txrequest)
+        return self.render_object(r, txrequest)
+
+    def render_object(self, obj, txrequest):
+        r = self.json_encoder.encode(obj) + "\n"
+        txrequest.setHeader('Content-Type', 'application/json,application/x-www-form-urlencoded')
+        txrequest.setHeader('Access-Control-Allow-Origin', '*')
+        txrequest.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE')
+        txrequest.setHeader('Access-Control-Allow-Headers','Content-Type,X-Requested-With,Authorization')
+        txrequest.setHeader('Content-Length', len(r))
+        return r
 
 class WsResource(JsonResource):
 
     def __init__(self, root):
         JsonResource.__init__(self)
         self.root = root
+    def login(self,username,password):
+        log.msg('Login Attempt:'+username+':'+password)
+        if username =='manu' and password=='manu':
+            return True
+        else:
+            raise Unauthorized('Wrong credentials')
 
     def render(self, txrequest):
         try:
+            print "Request Method = "+txrequest.method
+            if txrequest.method != 'OPTIONS':
+                self.login(txrequest.getUser(),txrequest.getPassword())
             return JsonResource.render(self, txrequest)
         except Exception, e:
             if self.root.debug:
@@ -22,6 +53,9 @@ class WsResource(JsonResource):
             log.err()
             r = {"status": "error", "message": str(e)}
             return self.render_object(r, txrequest)
+
+    def render_OPTIONS(self,txrequest):           
+        return self.render_object({'status':'success'},txrequest)
 
 class Schedule(WsResource):
 
@@ -57,6 +91,7 @@ class Cancel(WsResource):
         return {"status": "ok", "prevstate": prevstate}
 
 class AddVersion(WsResource):
+    #implement auth here
 
     def render_POST(self, txrequest):
         project = txrequest.args['project'][0]
@@ -64,9 +99,11 @@ class AddVersion(WsResource):
         eggf = StringIO(txrequest.args['egg'][0])
         self.root.eggstorage.put(eggf, project, version)
         spiders = get_spider_list(project)
+        pprint(spiders)
         self.root.update_projects()
-        return {"status": "ok", "project": project, "version": version, \
-            "spiders": len(spiders)}
+        return {"status": "fuckme", "project": project, "version": version, \
+            "spiders": len(spiders),"data":"Le me derping"}
+        
 
 class ListProjects(WsResource):
 

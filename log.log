@@ -1,0 +1,93 @@
+2013-11-29 21:58:19+0530 [-] Log opened.
+2013-11-29 21:58:19+0530 [-] twistd 13.2.0 (/usr/bin/python 2.7.5) starting up.
+2013-11-29 21:58:19+0530 [-] reactor class: twisted.internet.epollreactor.EPollReactor.
+2013-11-29 21:58:19+0530 [-] Site starting on 6800
+2013-11-29 21:58:19+0530 [-] Starting factory <twisted.web.server.Site instance at 0x23c8710>
+2013-11-29 21:58:19+0530 [Launcher] Scrapyd 1.0.1 started: max_proc=16, runner='scrapyd.runner'
+2013-11-29 21:58:35+0530 [HTTPChannel,0,127.0.0.1] 127.0.0.1 - - [29/Nov/2013:16:28:35 +0000] "GET / HTTP/1.1" 200 747 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36"
+2013-11-29 21:58:36+0530 [HTTPChannel,0,127.0.0.1] 127.0.0.1 - - [29/Nov/2013:16:28:35 +0000] "GET /favicon.ico HTTP/1.1" 404 153 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36"
+2013-11-29 21:58:48+0530 [HTTPChannel,2,127.0.0.1] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.7/dist-packages/twisted/web/http.py", line 1730, in allContentReceived
+	    req.requestReceived(command, path, version)
+	  File "/usr/local/lib/python2.7/dist-packages/twisted/web/http.py", line 826, in requestReceived
+	    self.process()
+	  File "/usr/local/lib/python2.7/dist-packages/twisted/web/server.py", line 189, in process
+	    self.render(resrc)
+	  File "/usr/local/lib/python2.7/dist-packages/twisted/web/server.py", line 238, in render
+	    body = resrc.render(self)
+	--- <exception caught here> ---
+	  File "/home/manu/scrapyd/scrapyd/webservice.py", line 18, in render
+	    return JsonResource.render(self, txrequest)
+	  File "/usr/local/lib/python2.7/dist-packages/scrapy/utils/txweb.py", line 10, in render
+	    r = resource.Resource.render(self, txrequest)
+	  File "/usr/local/lib/python2.7/dist-packages/twisted/web/resource.py", line 250, in render
+	    return m(request)
+	  File "/home/manu/scrapyd/scrapyd/webservice.py", line 65, in render_POST
+	    log("I got a deploy from %s"%project)
+	exceptions.TypeError: 'module' object is not callable
+	
+2013-11-29 21:58:48+0530 [HTTPChannel,2,127.0.0.1] 127.0.0.1 - - [29/Nov/2013:16:28:47 +0000] "POST /addversion.json HTTP/1.1" 200 66 "-" "Python-urllib/2.7"
+2013-11-29 22:00:01+0530 [HTTPChannel,3,127.0.0.1] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.7/dist-packages/twisted/web/http.py", line 1730, in allContentReceived
+	    req.requestReceived(command, path, version)
+	  File "/usr/local/lib/python2.7/dist-packages/twisted/web/http.py", line 826, in requestReceived
+	    self.process()
+	  File "/usr/local/lib/python2.7/dist-packages/twisted/web/server.py", line 189, in process
+	    self.render(resrc)
+	  File "/usr/local/lib/python2.7/dist-packages/twisted/web/server.py", line 238, in render
+	    body = resrc.render(self)
+	--- <exception caught here> ---
+	  File "/home/manu/scrapyd/scrapyd/webservice.py", line 18, in render
+	    return JsonResource.render(self, txrequest)
+	  File "/usr/local/lib/python2.7/dist-packages/scrapy/utils/txweb.py", line 10, in render
+	    r = resource.Resource.render(self, txrequest)
+	  File "/usr/local/lib/python2.7/dist-packages/twisted/web/resource.py", line 250, in render
+	    return m(request)
+	  File "/home/manu/scrapyd/scrapyd/webservice.py", line 65, in render_POST
+	    log("I got a deploy from %s"%project)
+	exceptions.TypeError: 'module' object is not callable
+	
+2013-11-29 22:00:01+0530 [HTTPChannel,3,127.0.0.1] 127.0.0.1 - - [29/Nov/2013:16:30:00 +0000] "POST /addversion.json HTTP/1.1" 200 66 "-" "Python-urllib/2.7"
+2013-11-29 22:04:04+0530 [-] Log opened.
+2013-11-29 22:04:04+0530 [-] twistd 13.2.0 (/usr/bin/python 2.7.5) starting up.
+2013-11-29 22:04:04+0530 [-] reactor class: twisted.internet.epollreactor.EPollReactor.
+2013-11-29 22:04:04+0530 [-] Site starting on 6800
+2013-11-29 22:04:04+0530 [-] Starting factory <twisted.web.server.Site instance at 0x1c75dd0>
+2013-11-29 22:04:04+0530 [Launcher] Scrapyd 1.0.1 started: max_proc=16, runner='scrapyd.runner'
+2013-11-29 22:04:14+0530 [HTTPChannel,0,127.0.0.1] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.7/dist-packages/twisted/web/http.py", line 1730, in allContentReceived
+	    req.requestReceived(command, path, version)
+	  File "/usr/local/lib/python2.7/dist-packages/twisted/web/http.py", line 826, in requestReceived
+	    self.process()
+	  File "/usr/local/lib/python2.7/dist-packages/twisted/web/server.py", line 189, in process
+	    self.render(resrc)
+	  File "/usr/local/lib/python2.7/dist-packages/twisted/web/server.py", line 238, in render
+	    body = resrc.render(self)
+	--- <exception caught here> ---
+	  File "/home/manu/scrapyd/scrapyd/webservice.py", line 18, in render
+	    return JsonResource.render(self, txrequest)
+	  File "/usr/local/lib/python2.7/dist-packages/scrapy/utils/txweb.py", line 10, in render
+	    r = resource.Resource.render(self, txrequest)
+	  File "/usr/local/lib/python2.7/dist-packages/twisted/web/resource.py", line 250, in render
+	    return m(request)
+	  File "/home/manu/scrapyd/scrapyd/webservice.py", line 65, in render_POST
+	    log("I got a deploy from")
+	exceptions.TypeError: 'module' object is not callable
+	
+2013-11-29 22:04:14+0530 [HTTPChannel,0,127.0.0.1] 127.0.0.1 - - [29/Nov/2013:16:34:13 +0000] "POST /addversion.json HTTP/1.1" 200 66 "-" "Python-urllib/2.7"
+2013-11-29 22:04:29+0530 [-] Received SIGTERM, shutting down.
+2013-11-29 22:04:29+0530 [-] (TCP Port 6800 Closed)
+2013-11-29 22:04:29+0530 [-] Stopping factory <twisted.web.server.Site instance at 0x1c75dd0>
+2013-11-29 22:04:29+0530 [-] Main loop terminated.
+2013-11-29 22:04:29+0530 [-] Server Shut Down.
+2013-11-29 22:05:46+0530 [-] Log opened.
+2013-11-29 22:05:46+0530 [-] twistd 13.2.0 (/usr/bin/python 2.7.5) starting up.
+2013-11-29 22:05:46+0530 [-] reactor class: twisted.internet.epollreactor.EPollReactor.
+2013-11-29 22:05:46+0530 [-] Site starting on 6800
+2013-11-29 22:05:46+0530 [-] Starting factory <twisted.web.server.Site instance at 0x2174dd0>
+2013-11-29 22:05:46+0530 [Launcher] Scrapyd 1.0.1 started: max_proc=16, runner='scrapyd.runner'
+2013-11-29 22:06:04+0530 [HTTPChannel,0,127.0.0.1] I got a deploy from blogspider
+2013-11-29 22:06:07+0530 [HTTPChannel,0,127.0.0.1] 127.0.0.1 - - [29/Nov/2013:16:36:03 +0000] "POST /addversion.json HTTP/1.1" 200 110 "-" "Python-urllib/2.7"

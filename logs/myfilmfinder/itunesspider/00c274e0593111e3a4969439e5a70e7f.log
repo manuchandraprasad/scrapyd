@@ -1,0 +1,3 @@
+2013-11-30 01:31:18+0530 [scrapy] INFO: Scrapy 0.20.0 started (bot: myfilmfinder)
+2013-11-30 01:31:18+0530 [scrapy] DEBUG: Optional features available: ssl, http11, django
+2013-11-30 01:31:18+0530 [scrapy] DEBUG: Overridden settings: {'NEWSPIDER_MODULE': 'myfilmfinder.spiders', 'SPIDER_MODULES': ['myfilmfinder.spiders'], 'FEED_URI': 'file://items/myfilmfinder/itunesspider/00c274e0593111e3a4969439e5a70e7f.jl', 'LOG_FILE': 'logs/myfilmfinder/itunesspider/00c274e0593111e3a4969439e5a70e7f.log', 'BOT_NAME': 'myfilmfinder'}
