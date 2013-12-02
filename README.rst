@@ -14,3 +14,10 @@ The documentation (including installation and usage) can be found at:
 http://scrapyd.readthedocs.org/
 
 .. _Scrapy: https://github.com/scrapy/scrapy
+
+Running Developement version
+============================
+From the root directory run
+````
+sudo twistd -y scrapyd/txapp.py -l - -n
+````
