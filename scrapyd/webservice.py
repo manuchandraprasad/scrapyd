@@ -12,6 +12,8 @@ from twisted.cred.error import Unauthorized
 import json
 from twisted.web import resource
 
+from db import authenticate, update_spiders, add_job
+
 class JsonResource(resource.Resource):
 
     json_encoder = json.JSONEncoder()
@@ -34,9 +36,11 @@ class WsResource(JsonResource):
     def __init__(self, root):
         JsonResource.__init__(self)
         self.root = root
-    def login(self,username,password):
-        log.msg('Login Attempt:'+username+':'+password)
-        if username =='manu' and password=='manu':
+
+    def login(self, email, password):
+        projects = authenticate(email, password)
+        if projects:
+            self.projects = projects
             return True
         else:
             raise Unauthorized('Wrong credentials')
@@ -45,7 +49,7 @@ class WsResource(JsonResource):
         try:
             print "Request Method = "+txrequest.method
             if txrequest.method != 'OPTIONS':
-                self.login(txrequest.getUser(),txrequest.getPassword())
+                self.login(txrequest.getUser(), txrequest.getPassword())
             return JsonResource.render(self, txrequest)
         except Exception, e:
             if self.root.debug:
@@ -54,7 +58,7 @@ class WsResource(JsonResource):
             r = {"status": "error", "message": str(e)}
             return self.render_object(r, txrequest)
 
-    def render_OPTIONS(self,txrequest):           
+    def render_OPTIONS(self,txrequest):
         return self.render_object({'status':'success'},txrequest)
 
 class Schedule(WsResource):
@@ -64,11 +68,14 @@ class Schedule(WsResource):
         settings = dict(x.split('=', 1) for x in settings)
         args = dict((k, v[0]) for k, v in txrequest.args.items())
         project = args.pop('project')
+        if project not in self.projects:
+            return {'status': "error", 'message': "Invalid project"}
         spider = args.pop('spider')
         args['settings'] = settings
         jobid = uuid.uuid1().hex
         args['_job'] = jobid
         self.root.scheduler.schedule(project, spider, **args)
+        add_job(project, spider, jobid)
         return {"status": "ok", "jobid": jobid}
 
 class Cancel(WsResource):
@@ -95,15 +102,17 @@ class AddVersion(WsResource):
 
     def render_POST(self, txrequest):
         project = txrequest.args['project'][0]
+        if project not in self.projects:
+            return {'status': "error", 'message': "Invalid project"}
         version = txrequest.args['version'][0]
         eggf = StringIO(txrequest.args['egg'][0])
         self.root.eggstorage.put(eggf, project, version)
         spiders = get_spider_list(project)
-        pprint(spiders)
+        update_spiders(project, spiders)
         self.root.update_projects()
-        return {"status": "fuckme", "project": project, "version": version, \
-            "spiders": len(spiders),"data":"Le me derping"}
-        
+        return {"status": "ok", "project": project, "version": version,
+                "spiders": len(spiders)}
+
 
 class ListProjects(WsResource):
 

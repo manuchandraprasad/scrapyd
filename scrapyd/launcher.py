@@ -6,6 +6,8 @@ from twisted.internet import reactor, defer, protocol, error
 from twisted.application.service import Service
 from twisted.python import log
 
+import db
+
 from scrapy.utils.python import stringify_dict
 from scrapyd.utils import get_crawl_args
 from scrapyd import __version__
@@ -82,9 +84,11 @@ class ScrapyProcessProtocol(protocol.ProcessProtocol):
 
     def outReceived(self, data):
         log.msg(data.rstrip(), system="Launcher,%d/stdout" % self.pid)
+        db.log(data.rstrip(), system="Launcher,%d/stdout" % self.pid)
 
     def errReceived(self, data):
         log.msg(data.rstrip(), system="Launcher,%d/stderr" % self.pid)
+        db.log(data.rstrip(), system="Launcher,%d/stdout" % self.pid)
 
     def connectionMade(self):
         self.pid = self.transport.pid
@@ -101,3 +105,6 @@ class ScrapyProcessProtocol(protocol.ProcessProtocol):
         fmt = '%(action)s project=%(project)r spider=%(spider)r job=%(job)r pid=%(pid)r log=%(log)r items=%(items)r'
         log.msg(format=fmt, action=action, project=self.project, spider=self.spider,
                 job=self.job, pid=self.pid, log=self.logfile, items=self.itemsfile)
+        db.log(format=fmt, action=action, project=self.project, spider=self.spider,
+                job=self.job, pid=self.pid, log=self.logfile, items=self.itemsfile)
+
